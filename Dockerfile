@@ -2,21 +2,24 @@ FROM node:10-alpine
 
 LABEL maintainer="Richard Szolár (RS Labs) <hello@rs-labs.io>"
 
-COPY . /etc/node-bridge
-
-#ADD ./bridge /etc/node-bridge
-
 # Create app directory
+RUN mkdir /etc/node-bridge -p
+
+ENV BRIDGEPORT 8081
+
+COPY ./run-app.sh /usr/local/run-app.sh
+RUN chmod +x /usr/local/run-app.sh
+
 WORKDIR /etc/node-bridge/bridge
 
-RUN apk update && \
-    apk add nginx --no-cache && \
-    cp /etc/node-bridge/nginx/conf.d/rest-web.conf /etc/nginx/conf.d/rest-web.conf && \
-    mkdir /run/nginx -p && \
-    nginx -t && \
-    nginx -g  "daemon on;" && \
+RUN wget https://github.com/0x111/node-exec/archive/master.tar.gz -O /tmp/master.tar.gz && \
+    tar --strip-components=1 -xzf /tmp/master.tar.gz -C /etc/node-bridge && \
+    rm /tmp/master.tar.gz && \
     cd /etc/node-bridge/bridge &&\
-    yarn install && \
-    yarn start
+    yarn install
 
-EXPOSE 8080
+RUN ls /etc/node-bridge
+
+EXPOSE 8081
+
+CMD ["/usr/local/run-app.sh"]
