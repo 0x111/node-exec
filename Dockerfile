@@ -13,11 +13,12 @@ WORKDIR /etc/node-bridge/bridge
 RUN wget https://github.com/0x111/node-exec/archive/master.tar.gz -O /tmp/master.tar.gz && \
     tar --strip-components=1 -xzf /tmp/master.tar.gz -C /etc/node-bridge && \
     rm /tmp/master.tar.gz && \
-    cd /etc/node-bridge/bridge &&\
+    cd /etc/node-bridge/bridge && \
+    yarn cache clean && \
     yarn install
-
-RUN ls /etc/node-bridge
 
 EXPOSE 8001
 
-CMD ["/usr/local/run-app.sh"]
+STOPSIGNAL SIGTERM
+
+CMD ["yarn", "start"]

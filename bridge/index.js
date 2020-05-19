@@ -1,4 +1,9 @@
-var restify = require('restify');
+const restify = require('restify');
+const {
+    VM,
+    NodeVM,
+    VMScript
+} = require('vm2');
 
 function processNativeScript(req, res, next) {
     let status = "success";
@@ -45,11 +50,6 @@ server.listen(8001, function() {
 
 function runScriptInVM(scriptPayload, native, logID, data) {
     let vm = null;
-    const {
-        VM,
-        NodeVM,
-        VMScript
-    } = require('vm2');
     if (native === true) {
         vm = new VM();
     } else {
