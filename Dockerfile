@@ -5,8 +5,6 @@ LABEL maintainer="Richard Szolár (RS Labs) <hello@rs-labs.io>"
 # Create app directory
 RUN mkdir /etc/node-bridge -p
 
-ENV BRIDGEPORT 8081
-
 COPY ./run-app.sh /usr/local/run-app.sh
 RUN chmod +x /usr/local/run-app.sh
 
