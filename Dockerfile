@@ -18,6 +18,6 @@ RUN wget https://github.com/0x111/node-exec/archive/master.tar.gz -O /tmp/master
 
 RUN ls /etc/node-bridge
 
-EXPOSE 8081
+EXPOSE 8001
 
 CMD ["/usr/local/run-app.sh"]
